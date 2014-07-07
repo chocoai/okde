@@ -13,5 +13,4 @@ ApplicationAdapters = Ember.Object.extend
                 currentUser: user
 
 
-
 `export default ApplicationAdapters`

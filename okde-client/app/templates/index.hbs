@@ -1,1 +1,5 @@
-{{#link-to 'login'}}登录{{/link-to}}
+{{#unless session.currentUser}}
+	{{#link-to 'login'}}登录{{/link-to}}
+{{else}}
+	欢迎{{session.currentUser}}	
+{{/unless}}
