@@ -1,0 +1,38 @@
+<form {{action "login" on="submit"}}>
+
+
+	{{!-- 输入用户名 --}}
+	<div class="row">
+		<div class="small-12">
+			<div class="small-3 column">
+				<label for="username" class="right inline">账户</label>
+			</div>
+			<div class="small-9 column">
+				{{input type="text" id="username" value=username}}				
+			</div>
+		</div>
+	</div>
+
+
+	{{!-- 输入密码 --}}
+	<div class="row">
+		<div class="small-12">
+			<div class="small-3 column">
+				<label for="password" class="right inline">密码</label>
+			</div>
+			<div class="small-9 column">
+				{{input type="text" id="password" value=password}}				
+			</div>
+		</div>
+	</div>
+
+
+	{{!-- 登录按钮 --}}
+	<div class="row">
+		<div class="small column">
+			<button type="submit" class="button expand radius">登录</button>
+		</div>
+	</div>
+
+
+</form>
