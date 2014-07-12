@@ -1,0 +1,23 @@
+//分页插件说明
+						<page:plugin 
+							pluginCode="001"  //插件编号，每个插件具有唯一的编号，在同一个页面不可重复,  eg:  获取所有选中的值getCheckedValues001(),查询方法search001();  必须
+							il8nName=""    //默认为全局的global
+							searchListActionpath="userjsonlist"     //返回json 数据的Action (集合数据)  必须
+							searchCountActionpath="userjsoncount"   //返回json 数据的Action（返回总数量）必须
+							columnsStr="id;user.code;user.name;user.city.value;user.sex.value;user.age;course;fraction"//需要显示的的集合数据的属性  必须
+							pageSize="15"//每页记录数，可以不设置
+							isNumber="true" //显示序号  可以不设置
+							isChecked="true"//显示checkbox 可以不设置  getCheckedValues001获取所选值
+							checkboxValue="id"//checkbox 的value  配合isChecked="true"使用
+							delete="json,deleteFun,id"//删除 
+							update="http,path,id,id,_self"//更新
+							view="http,path,id,id,_self"//查看
+							ontherOperating="json,setupFun,id,public.setup;http,path,id,id,_self,public.synchronous"／／json,方法名,参数值,g国际化;http,路径,参数,参数值,a标签的target属性
+							ontherOperatingWidth="80px"         //右边的操作宽度
+							params="type:$('#selectS').val()"   //需要提交的参数
+							currentPageIndexAttribute=""//action属性 默认为:result.
+							listAttribute=""//action属性 默认为:result.list
+							pageSizeAttribute=""//action属性 默认为:result.pageSize
+							recordCountAttribute=""//action属性 默认为:result.recordCount
+							tableCss=""//表格样式
+						/>

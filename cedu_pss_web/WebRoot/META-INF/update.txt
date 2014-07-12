@@ -1,0 +1,1 @@
+1. 新增academy_scale.js(院校规模js)

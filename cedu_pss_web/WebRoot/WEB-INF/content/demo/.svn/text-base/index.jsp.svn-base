@@ -1,0 +1,560 @@
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@ include file="../template/common/import.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Demo</title>
+		<!--  jquery库 -->
+		<jc:plugin name="jquery" />
+		<!-- jquery-UI -->
+		<jc:plugin name="jquery_ui" />
+		<!-- 整体样式 -->
+		<jc:plugin name="default" />
+		<!--  分页 --> 
+		<jc:plugin name="page" />
+		<!-- 时间控件 -->
+		<jc:plugin name="calendar" />
+		<!-- 选项卡 -->
+		<jc:plugin name="tab" />
+		<!-- 表单验证 -->
+		<jc:plugin name="validator" />
+		<!-- 基础JS -->
+		<jc:plugin name="base_js" />
+		<!-- 操作等待插件 -->
+		<jc:plugin name="loading" />
+		
+		<!-- 基础JS -->
+		<script type="text/javascript">
+			(function($){
+				$(function(){
+					util.select.initOption('select[name=academy]', get_academy());
+				});
+			})(jQuery);
+		</script>
+		
+		<script type="text/javascript">
+		
+		//ajax回调函数
+		function ajax_test1(data){
+			alert("总数量:"+data.result.recordCount+"\n查询数量回调函数－－－－－－－");
+		}
+		//ajax回调函数
+		function ajax_test2(data){
+			alert("总数量:"+data.result.recordCount+"\n查询数量回调函数");
+		}
+		$(function(){
+				 ajax_002_1();
+		});
+		</script>
+		<!--ajax插件-->
+		<a:ajax successCallbackFunctions="ajax_test1;ajax_test2" traditional="true;null" urls="user/userjsoncount;user/userjsoncount" pluginCode="002"/>
+		
+		<script type="text/javascript">
+			//删除
+			function deleteFun(id){
+				alert("删除"+id);
+			}
+			//操作设置
+			function setupFun(id){
+				alert("设置"+id);
+			}
+			//自定义显示列
+			function custom(code,name){
+				return code+"<br/>"+name;
+			}
+			//字体样式
+			function fonts(fenshu){
+				if(parseInt(fenshu)>=60){
+					return "<font color='blue'>"+fenshu+"</font>";
+				}else{
+					return "<font color='red'>"+fenshu+"</font>";
+				}
+				
+			}
+			//超链接
+			function a(id){	
+				isPageOperating(1,"001","checkbox")
+				return "<a href=\"javascript:alert('超链接')\">"+id+"</a>";
+			}
+			
+			//jquery-ui
+			$(function(){
+				
+				// Dialog			
+				$('#dialog').dialog({
+					autoOpen:false,
+					modal:true,
+					title:'提示!',
+					width: 260,
+					height: 180,
+					buttons: {
+						"Ok": function() { 
+							$(this).dialog("close"); 
+						}, 
+						"Cancel": function() { 
+							$(this).dialog("close"); 
+						} 
+					}
+				});
+			});
+		</script>
+		<script type="text/javascript">
+				
+			//回调函数
+			function countCallback001(data){
+				//alert("总数量:"+data.result.recordCount+"\n查询数量回调函数");
+			}
+			//回调函数
+			function listCallback001(data){
+				//alert("集合数量:"+data.result.list.length+"\n查询集合回调函数");
+				
+			}
+	</script>
+	<script type="text/javascript">
+$(document).ready(function(){
+	$.formValidator.initConfig({formID:"form1",debug:false,submitOnce:true,
+		onError:function(msg,obj,errorlist){
+			$("#errorlist").empty();
+			$.map(errorlist,function(msg){
+				$("#errorlist").append("<li>" + msg + "</li>")
+			});
+			alert(msg);
+		},
+		submitAfterAjaxPrompt : '有数据正在异步验证，请稍等...'
+	});
+
+
+	$("#password1").formValidator({onShow:"请输入密码",onFocus:"至少1个长度",onCorrect:"密码合法"}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码不能为空,请确认"});
+	$("#password2").formValidator({onShow:"输再次输入密码",onFocus:"至少1个长度",onCorrect:"密码一致"}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"重复密码两边不能有空符号"},onError:"重复密码不能为空,请确认"}).compareValidator({desID:"password1",operateor:"=",onError:"2次密码不一致,请确认"});
+	$(":radio[name='xb_one']").formValidator({tipID:"sexTip",onShow:"请选择你的性别",onFocus:"没有第三种性别了，你选一个吧",onCorrect:"输入正确",defaultValue:["1"]}).inputValidator({min:1,max:1,onError:"性别忘记选了,请确认"});//.defaultPassed();
+	$("#nl").formValidator({autoModify:true,onShow:"请输入的年龄（1-99岁之间）",onFocus:"只能输入1-99之间的数字哦",onCorrect:"恭喜你,你输对了"}).inputValidator({min:1,max:99,type:"value",onErrorMin:"你输入的值必须大于等于1",onError:"年龄必须在1-99之间，请确认"}).defaultPassed();
+	$("#csny").formValidator({onShow:"请输入的出生日期",onFocus:"请输入的出生日期，不能全部是0哦",onCorrect:"你输入的日期合法"}).inputValidator({min:"1900-01-01",max:"2000-01-01",type:"date",onError:"日期必须在\"1900-01-01\"和\"2000-01-01\"之间"}).defaultPassed();
+	$("#sfzh").formValidator({onShow:"请输入15或18位的证件号",onFocus:"输入15或18位的证件号",onCorrect:"输入正确"}).functionValidator({fun:isCardID});
+	$("#email").formValidator({onShow:"请输入邮箱",onFocus:"邮箱6-100个字符,输入正确了才能离开焦点",onCorrect:"恭喜你,你输对了",defaultValue:"@"}).inputValidator({min:6,max:100,onError:"你输入的邮箱长度错误,请确认"}).regexValidator({regExp:regexEnum.email,onError:"你输入的邮箱格式不正确"});
+	$("#xueli").formValidator({onShow:"请选择你的学历",onFocus:"学历必须选择",onCorrect:"输入正确",defaultValue:"a"}).inputValidator({min:1,onError: "你是不是忘记选择学历了!"}).defaultPassed();
+	$("#ewjy").formValidator({onShow:"无论你输入什么都会提示你额外校验出错",onFocus:"如果你输入\"猫冬\"，额外校验就会成功",onCorrect:"额外校验成功"}).inputValidator({min:1,onError:"这里至少要一个字符,请确认"}).functionValidator({
+	    fun:function(val,elem){
+	        if(val=="猫冬"){
+			    return true;
+		    }else{
+			    return "额外校验失败,想额外校验通过，请输入\"猫冬\""
+		    }
+		}
+	});
+	$("#Tel_country").formValidator({tipID:"teltip",onShow:"请输入国家区号",onFocus:"国家区号2位数字",onCorrect:"恭喜你,你输对了",defaultValue:"86"}).regexValidator({regExp:"^\\d{2}$",onError:"国家区号不正确"});
+	$("#Tel_area").formValidator({tipID:"teltip",onShow:"请输入地区区号",onFocus:"地区区号3位或4位数字",onCorrect:"恭喜你,你输对了"}).regexValidator({regExp:"^\\d{3,4}$",onError:"地区区号不正确"});
+	$("#Tel_number").formValidator({tipID:"teltip",onShow:"请输入电话号码",onFocus:"电话号码7到8位数字",onCorrect:"恭喜你,你输对了"}).regexValidator({regExp:"^\\d{7,8}$",onError:"电话号码不正确"});
+	$("#Tel_ext").formValidator({tipID:"teltip",onShow:"请输入分机号码",onFocus:"分机号码1到5位数字",onCorrect:"恭喜你,你输对了"}).regexValidator({regExp:"^\\d{1,5}$",onError:"分机号码不正确"});
+	$(":checkbox[name='xqah_one']").formValidator({tipID:"test3Tip",onShow:"请选择你的兴趣爱好（至少选一个）",onFocus:"你至少选择1个",onCorrect:"恭喜你,你选对了"}).inputValidator({min:1,onError:"你选的个数不对"});
+	$(":checkbox[name='xqah_more']").formValidator({tipID:"test2Tip",onShow:"请选择你的兴趣爱好(至少选择2个,最多选择3个)",onFocus:"你至少选择2个,最多选择3个",onCorrect:"恭喜你,你选对了",defaultValue:["7","8"]}).inputValidator({min:2,max:3,onError:"你选的个数不对(至少选择2个,最多选择3个)"});
+	$(":radio[name='aiguo']").formValidator({tipID:"aiguoTip",onShow:"爱国的人一定要选哦",onFocus:"你得认真思考哦",onCorrect:"不知道你爱不爱，反正你是选了",defaultValue:["4"]}).inputValidator({min:1,max:1,onError:"难道你不爱国？你给我选！！！！"}).defaultPassed();
+	$("#shouji").formValidator({empty:true,onShow:"请输入你的手机号码，可以为空",onFocus:"你要是输入了，必须输入正确",onCorrect:"谢谢你的合作",onEmpty:"你真的不想留手机号码啊？"}).inputValidator({min:11,max:11,onError:"手机号码必须是11位的,请确认"}).regexValidator({regExp:"mobile",dataType:"enum",onError:"你输入的手机号码格式不正确"});;
+	$("#lxdh").formValidator({empty:true,onShow:"请输入你的联系电话，可以为空",onFocus:"格式例如：0577-88888888",onCorrect:"谢谢你的合作",onEmpty:"你真的不想留联系电话了吗？"}).regexValidator({regExp:"^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$",onError:"你输入的联系电话格式不正确"});
+	$("#sjdh").formValidator({empty:true,onShow:"请输入你的手机或电话，可以为空",onFocus:"格式例如：0577-88888888或11位手机号码",onCorrect:"谢谢你的合作",onEmpty:"你真的不想留手机或电话了吗？"}).regexValidator({regExp:["tel","mobile"],dataType:"enum",onError:"你输入的手机或电话格式不正确"});
+	$("#selectmore").formValidator({onShow:"按住CTRL可以多选",onFocus:"按住CTRL可以多选,至少选择2个",onCorrect:"谢谢你的合作",defaultValue:["0","1","2"]}).inputValidator({min:2,onError:"至少选择2个"});
+	$("#ms").formValidator({onShow:"请输入你的描述",onFocus:"描述至少要输入10个汉字或20个字符",onCorrect:"恭喜你,你输对了",defaultValue:"这家伙很懒，什么都没有留下。"}).inputValidator({min:20,onError:"你输入的描述长度不正确,请确认"});
+});
+function test(obj)
+{
+	if(obj.value=="不校验证件号")
+	{
+		$("#sfzh").attr("disabled",true).unFormValidator(true);
+		obj.value = "校验证件号";
+	}
+	else
+	{
+		$("#sfzh").attr("disabled",false).unFormValidator(false);
+		obj.value = "不校验证件号";
+	}
+}
+function test1(obj)
+{
+	var initConfig = $('body').data('1');
+	if(obj.value=="全角字符当做1个长度")
+	{
+		initConfig.wideword = false;
+		obj.value = "全角字符当做2个长度";
+	}
+	else
+	{
+		initConfig.wideword = true;
+		obj.value = "全角字符当做1个长度";
+	}
+	$('body').data(obj.validatorgroup,initConfig);
+}
+</script>
+	</head>
+	<body>
+		<!--头部层开始 -->
+		<head:head title="demo">
+		</head:head>
+		<!--主体层开始 -->
+		<body:body>
+				<font size="4">1.分页控件</font><br />
+				<select id="selectS" onchange="search001();">
+					<option value="-1" selected="selected">全部</option>
+					<option value="0">不及格</option>
+					<option value="1">及格</option>
+				</select>
+				
+				<select id="selectOrder" onchange="search001();">
+					<option value="id" selected="selected">ID</option>
+					<option value="fraction">分数</option>
+				</select>
+				
+				<select id="selectSort" onchange="search001();">
+					<option value="asc" selected="selected">升序</option>
+					<option value="desc">降序</option>
+				</select>
+				<input type="button" onclick="alert(getCheckedValues001());" value="获取选中的值1" />
+				<input type="button" onclick="search001();" value="查询2" />
+				
+				<!-- 分页插件  用法见：/META-INF/page_plugin.txt-->
+					<page:plugin 
+						pluginCode="${'001'}"
+						il8nName="demo"
+						subStringLength="10"
+						searchListActionpath="user/userjsonlist"
+						searchCountActionpath="user/userjsoncount"
+						columnsStr="id;#custom;user.code;user.name;user.city.value;user.sex.value;user.age;course;fraction"
+						customColumnValue="0,a(id);1,custom(user.code,user.name);8,fonts(fraction)"
+						columnsWidth="[1,120px][2,120px]"
+						pageSize="20"
+						isNumber="true"
+						isPage="true"
+						isChecked="true"
+						checkboxValue="id"
+						delete="json,deleteFun,id"
+						countCallback="countCallback"
+						listCallback="listCallback"
+						update="json,deleteFun,id"
+						view="http,/template/index,id,id,_self"
+						ontherOperating="json,setupFun,id,public.setup;http,path,id,id,_self,public.synchronous"
+						ontherOperatingWidth="80px"
+						params="'type':$('#selectS').val(),'result.order':$('#selectOrder').val(),'result.sort':$('#selectSort').val()"
+						isonLoad="true"
+						mergeCells="11"
+						titleBar="title"
+						isPackage="false"
+						isOrder="true"
+					/>
+					1.1新增
+						subStringLength属性  &nbsp;默认截取在app.properties当中配置substring，subStringLength=-1  不截取     subStringLength=10  超过10个字符截取
+					<br />
+					1.2新增
+						operatingWidth属性   &nbsp;默认70px，subStringLength=10px  查看，更新，删除列的宽度
+					<br />
+					1.3新增
+						columnsWidth属性   &nbsp;columnsWidth="[1,120px][2,120px]"  第二列的宽度是120px第三列的宽度是120px，备注：支持百分比 索引从0开始，与属性columnsStr对应
+					<br />
+					1.4新增
+						isPage属性   &nbsp;默认为true分页 isPage="false"  不分页   在biz业务  // p.setPage(pr.isPage());   参考DUserBizImpl实现类
+					<br />
+					1.5新增
+						<br />
+						countCallback属性   &nbsp;查询数量回调函数  参数为json  data
+						<br />
+						listCallback属性   &nbsp;查询集合回调函数  参数为json  data
+						
+					<br />
+					1.6新增
+						isonLoad属性   &nbsp;默认为true自动加载 isonLoad="false" 手动加载
+					<br />
+					1.7新增
+						titleBar属性   &nbsp;设置标题栏    
+						<br />
+				    1.8新增
+				    	searchFormId属性&nbsp;设置查询的表单ID
+					
+					<font size="4">2.日历控件</font><br />
+					<input class="Wdate" type="text" onclick="WdatePicker()"/>
+					<br />
+					<font size="4">3.jQuery-ui</font><br />
+						<br />
+						<input type="button" value="打开" class="btn_black_61" onclick="$('#dialog').dialog('open');"/>
+						<div id="dialog" style="display:none">
+							<div>jQuery-Ui插件</div>
+						</div>
+					<br />
+					<font size="4">4.选项卡</font><br />
+					<div>
+						<ul id="menu">
+							<li><a href="#" title="" class="current">选项卡1</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+							<li><a href="#" title="">选项卡2</a></li>
+						</ul>
+					</div>
+					
+					
+					<br />
+					<font size="4">5.基础JS</font><br />
+					<select class="txt_box_150" name="academy" ></select>
+					
+					
+					<br />
+					<font size="4">6.国际化</font><br />
+					  key:必填值
+					  <br />
+					  il8nName:例如demo
+					  <br />
+					  m:il8n key="id" il8nName="demo"/&gt;
+					
+					<m:il8n key="id" il8nName="demo"/>
+					<m:il8n key="public.setup" />
+					
+					
+					
+					
+					<br />
+					<font size="4">7.操作等待插件</font><br />
+					  引入
+					  jc:plugin name="loading"/&gt;
+					  <br/>
+					   1.加载showAjaxLoad()
+					   <br/>
+					   2.关闭加载closeAjaxLoad()
+					
+					<br />
+					<font size="4">8.JS操作工具类</font><br />
+					<br/>
+					8.1日期格式化
+						<br/>
+						* (new Date()).pattern("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423  
+						<br/>   
+						* (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04    
+						<br/> 
+						* (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04    
+						<br/> 
+						* (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04  
+						<br/>   
+						* (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18  
+						<br/>
+						例如：new Date().pattern("yyyy-MM-dd hh:mm:ss")
+					<br/>
+					8.2获取每月的天数
+					例如:getDate(2012,2)
+					<br/>
+					8.3字符串replaceAll方法
+					例如:     "# # World".replaceAll("#","Hello")
+					<br/>
+					8.4转换钱
+					例如： "200".toMoney()
+					<br/>
+					8.5把form元素转换为json
+					例如： $("#formID").serializeObject();
+					<br/>
+					8.4截取字符串
+					例如： "1111111".toSubString(10)超过10个字符截取字符串
+					
+					
+					
+					<br />
+					<font size="4">9.路径标签</font><br />
+					<br />
+					  1.获取图片路径（使用见源码）
+					  <ui:img url="/1"/>
+					<br />
+					  2.获取附件路径（使用见源码）
+					 <ua:attachment url="/2"/>
+					<br />
+					  3.获取普通请求路径（使用见源码）
+					  <uu:url url="${22222222222222}"/>
+					
+					<br />
+					<font size="4">10.表单验证</font><br />
+					<p>只有一个校验组的示例</p>
+					<input type="button" onClick="test(this)" value="不校验证件号"  />
+					<label>
+					<input type="button" name="Submit" onClick="test1(this)" value="全角字符当做1个长度">请看最后的"你的描述"控件
+					</label>
+					
+					<form action="" method="post" name="form1" id="form1">
+					  
+					  
+					    <input type="submit" name="button" id="button" value="提交" />
+					<br />
+					  <table border="0px" style="font-size:12px" width="630px">
+					    <tr> 
+					      <td align="right">用户名:</td>
+					      <td><input type="text" id="us" name="us" style="width:120px" value="maodong" /></td>
+					      <td><div id="usTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">密码:</td>
+					
+					      <td><input type="password" id="password1" name="password1" style="width:120px" /></td>
+					      <td><div id="password1Tip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">重复密码:</td>
+					      <td><input type="password" id="password2" name="password2" style="width:120px" /></td>
+					      <td><div id="password2Tip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">你的性别:</td>
+					
+					      <td><input type="radio" id="sex" value="1" name="xb_one" />
+					        男&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="sex1" value="2" name="xb_one" />
+					        女</td>
+					      <td><div id="sexTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">你的年龄:</td>
+					
+					      <td><input type="text" id="nl" name="nl" style="width:120px" value="26" class="fv_input_text_default" /></td>
+					      <td><div id="nlTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">出生日期:</td>
+					      <td><input type="text" id="csny" name="csny" style="width:120px" value="1982-09-21" /></td>
+					      <td><div id="csnyTip" style="width:300px"></div></td>
+					    </tr>
+					    <tr>
+					
+					      <td align="right">证件号</td>
+					      <td><input name="sfzh" type="text" id="sfzh" style="width:150px" value="" /></td>
+					      <td><div id="sfzhTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">电子邮箱:</td>
+					      <td><input type="text" id="email" name="email" style="width:120px" /></td>
+					      <td><div id="emailTip" style="width:250px"></div></td>
+					
+					    </tr>
+					    <tr> 
+					      <td align="right">你的学历:</td>
+					      <td> <select name="xueli" id="xueli">
+					          <option value="">－－请选择你的学历－－</option>
+					          <option value="a">专科</option>
+					          <option value="b">本科</option>
+					
+					          <option value="c">研究生</option>
+					          <option value="e">硕士</option>
+					          <option value="d">博士</option>
+					        </select> </td>
+					      <td><div id="xueliTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">额外校验:</td>
+					
+					      <td><input name="ewjy" type="text" id="ewjy" style="width:120px" /></td>
+					      <td><div id="ewjyTip" style="width:270px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td colspan="3"> 国家区号 
+					        <input id="Tel_country" name="Tel_country" style="width: 20px;" value="" />
+					        -地区区号 
+					        <input id="Tel_area" name="Tel_area" style="width: 35px;" />
+					        -电话号码 
+					        <input id="Tel_number" name="Tel_number" style="width: 60px;" />
+					
+					        -分机号码 
+					        <input id="Tel_ext" name="Tel_ext" style="width: 30px;" /> </td>
+					    </tr>
+					    <tr>
+					      <td colspan="3"><div id="teltip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">兴趣爱好1:</td>
+					      <td colspan="2"> <input type="checkbox" name="xqah_one" id="qq1"/>
+					
+					        乒乓球 
+					        <input type="checkbox" name="xqah_one" id="qq2" value="1" />
+					        羽毛球 
+					        <input type="checkbox" name="xqah_one" id="qq3" value="2" />
+					        上网 
+					        <input type="checkbox" name="xqah_one" id="qq4" value="3" />
+					        旅游 
+					        <input type="checkbox" name="xqah_one" id="qq5" value="4" />
+					        购物 </td>
+					    </tr>
+					
+					    <tr> 
+					      <td colspan="3"><div id="test3Tip" style="width:350px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">兴趣爱好2:</td>
+					      <td colspan="2"> <input type="checkbox" name="xqah_more" id="pp0"/>
+					        乒乓球 
+					        <input type="checkbox" name="xqah_more" id="pp1" value="5" />
+					        羽毛球 
+					        <input type="checkbox" name="xqah_more" id="pp7" value="6" />
+					
+					        上网 
+					        <input type="checkbox" name="xqah_more" id="pp8" value="7" />
+					        旅游 
+					        <input type="checkbox" name="xqah_more" id="pp9" value="8" />
+					        购物 
+					        <input type="checkbox" name="xqah_more" id="pp6" value="9" />
+					        睡觉 </td>
+					    </tr>
+					    <tr> 
+					      <td colspan="3"><div id="test2Tip" style="width:350px"></div></td>
+					
+					    </tr>
+					    <tr> 
+					      <td align="right">你爱国吗:</td>
+					      <td colspan="2"> <input type="radio" name="aiguo" value="1" id="bb1"  />
+					        不爱 
+					        <input type="radio" name="aiguo" id="bb2" value="2" />
+					        不发表意见 
+					        <input type="radio" name="aiguo" id="nn3" value="3" />
+					        爱 
+					        <input type="radio" name="aiguo" id="nn4" value="4" />
+					
+					        爱死它了 </td>
+					    </tr>
+					    <tr> 
+					      <td colspan="3"><div id="aiguoTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">手机号码:</td>
+					      <td><input type="text" id="shouji" name="shouji" style="width:120px" /></td>
+					      <td><div id="shoujiTip" style="width:250px"></div></td>
+					
+					    </tr>
+					    <tr> 
+					      <td align="right">联系电话:</td>
+					      <td><input type="text" id="lxdh" name="lxdh" style="width:120px" /></td>
+					      <td><div id="lxdhTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right">手机或电话:</td>
+					      <td><input type="text" id="sjdh" name="sjdh" style="width:120px" /></td>
+					
+					      <td><div id="sjdhTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right" valign="top">多选select控件:</td>
+					      <td valign="top">
+						    <select name="selectmore" size="3" id="selectmore" multiple>
+							  <option value="0">多选1</option>
+							  <option value="1">多选2</option>
+					
+							  <option value="2">多选3</option>
+							</select>(按住ctrl键多选)
+					      </td>
+					      <td><div id="selectmoreTip" style="width:250px"></div></td>
+					    </tr>
+					    <tr> 
+					      <td align="right" valign="top">你的描述:</td>
+					      <td colspan="2" valign="top"> <textarea id="ms" name="ms" cols="50" rows="10">这里是十个中文字符哦</textarea> 
+					      </td>
+					
+					    </tr>
+					    <tr> 
+					      <td colspan="3"><div id="msTip" style="width:250px"></div></td>
+					    </tr>
+					  </table>
+					  
+					</form>
+					<div id="output"></div>
+					
+			</body:body>
+	</body>
+
+</html>

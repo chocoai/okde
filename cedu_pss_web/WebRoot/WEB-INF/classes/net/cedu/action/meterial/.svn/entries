@@ -1,0 +1,55 @@
+10
+
+dir
+7633
+svn://120.72.34.81:443/CEDU_PSS_CODE/cedu_pss_web/src/action/net/cedu/action/meterial
+svn://120.72.34.81:443/CEDU_PSS_CODE
+
+
+
+2012-03-16T02:03:57.281250Z
+5956
+yangyang
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4f99ea31-7a0f-b543-84f9-c54001428def
+
+meterialcategory
+dir
+
+meterialpurchasedetail
+dir
+
+meterial
+dir
+
+meterialapplication
+dir
+
+meterialstock
+dir
+
+meterialusagerecord
+dir
+
+murdetail
+dir
+
+meterialapplicationdetail
+dir
+
+meterialpurchase
+dir
+

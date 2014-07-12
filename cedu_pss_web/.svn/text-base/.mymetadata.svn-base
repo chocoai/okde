@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="cedu_pss_web"
+  id="myeclipse.1309253541094"
+  context-root="/cedu"
+  j2ee-spec="5.0"
+  archive="cedu_pss_web.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

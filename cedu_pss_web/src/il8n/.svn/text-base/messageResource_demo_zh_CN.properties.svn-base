@@ -1,0 +1,17 @@
+user.id=ID
+user.code=\u7F16\u7801
+code=\u7F16\u53F7
+user.name=\u59D3\u540D
+user.city.value=\u57CE\u5E02
+user.sex.value=\u6027\u522B
+user.age=\u5E74\u9F84
+user.fullname=\u59D3\u540D
+course=\u79D1\u76EE
+fraction=\u5206\u6570
+address=\u57CE\u5E02
+\#custom=\u81EA\u5B9A\u4E49
+title=\u6807\u9898
+id=ID
+success={0}\u5220\u9664{1}\u6210\u529F
+demo=Demo\u9875\u9762
+
